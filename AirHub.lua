@@ -23,8 +23,7 @@ getgenv().AirHub = {}
 --// Load Modules
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/AirHub/main/Modules/Aimbot.lua"))()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/AirHub/main/Modules/Wall%20Hack.lua"))()	
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Nenormalniypon/MoreFeatures/refs/heads/main/Modules/Triggerbot.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/AirHub/main/Modules/Wall%20Hack.lua"))()
 
 --// Variables
 
@@ -93,65 +92,65 @@ local FOV_Appearance = AimbotTab:CreateSection({
 	Side = "Right"
 })
 
-local TriggerbotTab = MainFrame:CreateTab({
-	Name = "Triggerbot"
-})
-
-local TriggerbotMain = TriggerbotTab:CreateSection({
-	Name = "Main"
-})
-
-local TriggerbotChecks = TriggerbotTab:CreateSection({
-	Name = "Checks",
+--// Triggerbot Section
+local TriggerbotSection = AimbotTab:CreateSection({
+	Name = "Triggerbot",
 	Side = "Right"
 })
 
 local Triggerbot = getgenv().AirHub.Triggerbot
 
--- Main Settings
-TriggerbotMain:AddToggle({
+TriggerbotSection:AddToggle({
 	Name = "Enabled",
 	Value = Triggerbot.Settings.Enabled,
-	Callback = function(Value)
-		Triggerbot.Settings.Enabled = Value
+	Callback = function(val)
+		Triggerbot.Settings.Enabled = val
 	end
-}).Default = false
+})
 
-TriggerbotMain:AddSlider({
-	Name = "Shoot Delay (ms)",
-	Value = Triggerbot.Settings.Delay,
-	Callback = function(Value)
-		Triggerbot.Settings.Delay = Value
-	end,
-	Min = 0,
-	Max = 500,
-	Decimals = 0
-}).Default = 0
+TriggerbotSection:AddToggle({
+	Name = "Hold Mode",
+	Value = Triggerbot.Settings.HoldMode,
+	Callback = function(val)
+		Triggerbot.Settings.HoldMode = val
+	end
+})
 
--- Checks
-TriggerbotChecks:AddToggle({
+TriggerbotSection:AddToggle({
 	Name = "Team Check",
 	Value = Triggerbot.Settings.TeamCheck,
-	Callback = function(Value)
-		Triggerbot.Settings.TeamCheck = Value
+	Callback = function(val)
+		Triggerbot.Settings.TeamCheck = val
 	end
-}).Default = true
+})
 
-TriggerbotChecks:AddToggle({
+TriggerbotSection:AddToggle({
 	Name = "Wall Check",
 	Value = Triggerbot.Settings.WallCheck,
-	Callback = function(Value)
-		Triggerbot.Settings.WallCheck = Value
+	Callback = function(val)
+		Triggerbot.Settings.WallCheck = val
 	end
-}).Default = true
+})
 
-TriggerbotChecks:AddToggle({
-	Name = "Alive Check",
-	Value = Triggerbot.Settings.AliveCheck,
-	Callback = function(Value)
-		Triggerbot.Settings.AliveCheck = Value
+TriggerbotSection:AddSlider({
+	Name = "Delay (ms)",
+	Value = Triggerbot.Settings.Delay,
+	Min = 0,
+	Max = 300,
+	Callback = function(val)
+		Triggerbot.Settings.Delay = val
 	end
-}).Default = true	
+})
+
+TriggerbotSection:AddSlider({
+	Name = "Randomization (±ms)",
+	Value = Triggerbot.Settings.Randomization,
+	Min = 0,
+	Max = 100,
+	Callback = function(val)
+		Triggerbot.Settings.Randomization = val
+	end
+})
 
 --// Visuals Sections
 
