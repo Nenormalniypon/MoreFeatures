@@ -23,7 +23,8 @@ getgenv().AirHub = {}
 --// Load Modules
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/AirHub/main/Modules/Aimbot.lua"))()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/AirHub/main/Modules/Wall%20Hack.lua"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/AirHub/main/Modules/Wall%20Hack.lua"))()	
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Nenormalniypon/MoreFeatures/refs/heads/main/Modules/Triggerbot.lua"))()
 
 --// Variables
 
