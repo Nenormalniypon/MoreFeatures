@@ -24,7 +24,6 @@ getgenv().AirHub = {}
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/AirHub/main/Modules/Aimbot.lua"))()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/AirHub/main/Modules/Wall%20Hack.lua"))()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Nenormalniypon/MoreFeatures/refs/heads/main/Modules/Triggerbot.lua"))()
 
 --// Variables
 
@@ -331,76 +330,6 @@ FOV_Appearance:AddColorpicker({
 		Aimbot.FOVSettings.LockedColor = New
 	end
 }).Default = Aimbot.FOVSettings.LockedColor
-
---// Triggerbot Section
-local TriggerbotSection = AimbotTab:CreateSection({
-	Name = "Triggerbot",
-	Side = "Right"
-})
-
-local Triggerbot = getgenv().AirHub.Triggerbot
-
-TriggerbotSection:AddToggle({
-	Name = "Enabled",
-	Value = Triggerbot.Settings.Enabled,
-	Callback = function(New)
-		Triggerbot.Settings.Enabled = New
-	end
-})
-
-TriggerbotSection:AddToggle({
-	Name = "FOV Sync (with Aimbot)",
-	Value = Triggerbot.Settings.FOVSync,
-	Callback = function(New)
-		Triggerbot.Settings.FOVSync = New
-	end
-})
-
-TriggerbotSection:AddToggle({
-	Name = "Hold Mode",
-	Value = Triggerbot.Settings.HoldMode,
-	Callback = function(New)
-		Triggerbot.Settings.HoldMode = New
-	end
-})
-
-TriggerbotSection:AddToggle({
-	Name = "Team Check",
-	Value = Triggerbot.Settings.TeamCheck,
-	Callback = function(New)
-		Triggerbot.Settings.TeamCheck = New
-	end
-})
-
-TriggerbotSection:AddToggle({
-	Name = "Wall Check",
-	Value = Triggerbot.Settings.WallCheck,
-	Callback = function(New)
-		Triggerbot.Settings.WallCheck = New
-	end
-})
-
-TriggerbotSection:AddSlider({
-	Name = "Delay (ms)",
-	Value = Triggerbot.Settings.Delay,
-	Min = 0,
-	Max = 300,
-	Decimals = 0,
-	Callback = function(New)
-		Triggerbot.Settings.Delay = New
-	end
-})
-
-TriggerbotSection:AddSlider({
-	Name = "Randomization (±ms)",
-	Value = Triggerbot.Settings.Randomization,
-	Min = 0,
-	Max = 100,
-	Decimals = 0,
-	Callback = function(New)
-		Triggerbot.Settings.Randomization = New
-	end
-})
 
 --// Wall Hack Settings
 
@@ -1001,3 +930,4 @@ do
 		Callback = Aux
 	})
 end
+
