@@ -24,8 +24,6 @@ getgenv().AirHub = {}
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/AirHub/main/Modules/Aimbot.lua"))()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Exunys/AirHub/main/Modules/Wall%20Hack.lua"))()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Nenormalniypon/MoreFeatures/refs/heads/main/Modules/Triggerbot.lua"))()
-
 
 --// Variables
 
@@ -82,11 +80,6 @@ local Checks = AimbotTab:CreateSection({
 
 local ThirdPerson = AimbotTab:CreateSection({
 	Name = "Third Person"
-})
-
-local TriggerBotSection = AimbotTab:CreateSection({
-	Name = "Trigger Bot",
-	Side = "Right"
 })
 
 local FOV_Values = AimbotTab:CreateSection({
@@ -185,6 +178,16 @@ Values:AddTextbox({ -- Using a Textbox instead of a Keybind because the UI Libra
 	end
 }).Default = Aimbot.Settings.TriggerKey
 
+--[[
+Values:AddKeybind({
+	Name = "Hotkey",
+	Value = Aimbot.Settings.TriggerKey,
+	Callback = function(New, Old)
+		Aimbot.Settings.TriggerKey = stringmatch(tostring(New), "Enum%.[UserInputType]*[KeyCode]*%.(.+)")
+	end,
+}).Default = Aimbot.Settings.TriggerKey
+]]
+
 Values:AddSlider({
 	Name = "Sensitivity",
 	Value = Aimbot.Settings.Sensitivity,
@@ -243,71 +246,6 @@ ThirdPerson:AddSlider({
 	Decimals = 1
 }).Default = Aimbot.Settings.ThirdPersonSensitivity
 
---// Trigger Bot Section
-
-TriggerBotSection:AddToggle({
-	Name = "Enabled",
-	Value = Aimbot.Settings.TriggerBot,
-	Callback = function(New, Old)
-		Aimbot.Settings.TriggerBot = New
-	end
-}).Default = Aimbot.Settings.TriggerBot
-
-Aimbot.Settings.TriggerBotPart = Parts[1]; TriggerBotSection:AddDropdown({
-	Name = "Trigger Part",
-	Value = Parts[1],
-	Callback = function(New, Old)
-		Aimbot.Settings.TriggerBotPart = New
-	end,
-	List = Parts,
-	Nothing = "Head"
-}).Default = Parts[1]
-
-TriggerBotSection:AddSlider({
-	Name = "Pixel Threshold",
-	Value = Aimbot.Settings.TriggerBotThreshold,
-	Callback = function(New, Old)
-		Aimbot.Settings.TriggerBotThreshold = New
-	end,
-	Min = 1,
-	Max = 20
-}).Default = Aimbot.Settings.TriggerBotThreshold
-
-TriggerBotSection:AddSlider({
-	Name = "Cooldown (seconds)",
-	Value = Aimbot.Settings.TriggerBotCooldown,
-	Callback = function(New, Old)
-		Aimbot.Settings.TriggerBotCooldown = New
-	end,
-	Min = 0,
-	Max = 1,
-	Decimals = 2
-}).Default = Aimbot.Settings.TriggerBotCooldown
-
-TriggerBotSection:AddToggle({
-	Name = "Team Check",
-	Value = Aimbot.Settings.TriggerBotTeamCheck,
-	Callback = function(New, Old)
-		Aimbot.Settings.TriggerBotTeamCheck = New
-	end
-}).Default = Aimbot.Settings.TriggerBotTeamCheck
-
-TriggerBotSection:AddToggle({
-	Name = "Alive Check",
-	Value = Aimbot.Settings.TriggerBotAliveCheck,
-	Callback = function(New, Old)
-		Aimbot.Settings.TriggerBotAliveCheck = New
-	end
-}).Default = Aimbot.Settings.TriggerBotAliveCheck
-
-TriggerBotSection:AddToggle({
-	Name = "Wall Check",
-	Value = Aimbot.Settings.TriggerBotWallCheck,
-	Callback = function(New, Old)
-		Aimbot.Settings.TriggerBotWallCheck = New
-	end
-}).Default = Aimbot.Settings.TriggerBotWallCheck
-
 --// FOV Settings Values
 
 FOV_Values:AddToggle({
@@ -347,13 +285,24 @@ FOV_Appearance:AddToggle({
 }).Default = Aimbot.FOVSettings.Filled
 
 FOV_Appearance:AddSlider({
+	Name = "Transparency",
+	Value = Aimbot.FOVSettings.Transparency,
+	Callback = function(New, Old)
+		Aimbot.FOVSettings.Transparency = New
+	end,
+	Min = 0,
+	Max = 1,
+	Decimal = 1
+}).Default = Aimbot.FOVSettings.Transparency
+
+FOV_Appearance:AddSlider({
 	Name = "Sides",
 	Value = Aimbot.FOVSettings.Sides,
 	Callback = function(New, Old)
 		Aimbot.FOVSettings.Sides = New
 	end,
 	Min = 3,
-	Max = 120
+	Max = 60
 }).Default = Aimbot.FOVSettings.Sides
 
 FOV_Appearance:AddSlider({
@@ -363,19 +312,8 @@ FOV_Appearance:AddSlider({
 		Aimbot.FOVSettings.Thickness = New
 	end,
 	Min = 1,
-	Max = 5
+	Max = 50
 }).Default = Aimbot.FOVSettings.Thickness
-
-FOV_Appearance:AddSlider({
-	Name = "Transparency",
-	Value = Aimbot.FOVSettings.Transparency,
-	Callback = function(New, Old)
-		Aimbot.FOVSettings.Transparency = New
-	end,
-	Min = 0,
-	Max = 1,
-	Decimals = 2
-}).Default = Aimbot.FOVSettings.Transparency
 
 FOV_Appearance:AddColorpicker({
 	Name = "Color",
@@ -393,7 +331,7 @@ FOV_Appearance:AddColorpicker({
 	end
 }).Default = Aimbot.FOVSettings.LockedColor
 
---// Triggerbot Section (улучшенная)
+--// Triggerbot Section
 local TriggerbotSection = AimbotTab:CreateSection({
 	Name = "Triggerbot",
 	Side = "Right"
@@ -462,7 +400,8 @@ TriggerbotSection:AddSlider({
 		Triggerbot.Settings.Randomization = New
 	end
 })
---// Wall Hack Checks
+
+--// Wall Hack Settings
 
 WallHackChecks:AddToggle({
 	Name = "Enabled",
@@ -488,7 +427,7 @@ WallHackChecks:AddToggle({
 	end
 }).Default = WallHack.Settings.AliveCheck
 
---// ESP Settings
+--// Visuals Settings
 
 ESPSettings:AddToggle({
 	Name = "Enabled",
@@ -507,12 +446,12 @@ ESPSettings:AddToggle({
 }).Default = WallHack.Visuals.ESPSettings.Outline
 
 ESPSettings:AddToggle({
-	Name = "Display Names",
-	Value = WallHack.Visuals.ESPSettings.DisplayName,
+	Name = "Display Distance",
+	Value = WallHack.Visuals.ESPSettings.DisplayDistance,
 	Callback = function(New, Old)
-		WallHack.Visuals.ESPSettings.DisplayName = New
+		WallHack.Visuals.ESPSettings.DisplayDistance = New
 	end
-}).Default = WallHack.Visuals.ESPSettings.DisplayName
+}).Default = WallHack.Visuals.ESPSettings.DisplayDistance
 
 ESPSettings:AddToggle({
 	Name = "Display Health",
@@ -523,12 +462,12 @@ ESPSettings:AddToggle({
 }).Default = WallHack.Visuals.ESPSettings.DisplayHealth
 
 ESPSettings:AddToggle({
-	Name = "Display Distance",
-	Value = WallHack.Visuals.ESPSettings.DisplayDistance,
+	Name = "Display Name",
+	Value = WallHack.Visuals.ESPSettings.DisplayName,
 	Callback = function(New, Old)
-		WallHack.Visuals.ESPSettings.DisplayDistance = New
+		WallHack.Visuals.ESPSettings.DisplayName = New
 	end
-}).Default = WallHack.Visuals.ESPSettings.DisplayDistance
+}).Default = WallHack.Visuals.ESPSettings.DisplayName
 
 ESPSettings:AddSlider({
 	Name = "Offset",
@@ -539,37 +478,6 @@ ESPSettings:AddSlider({
 	Min = -30,
 	Max = 30
 }).Default = WallHack.Visuals.ESPSettings.Offset
-
-ESPSettings:AddSlider({
-	Name = "Text Size",
-	Value = WallHack.Visuals.ESPSettings.TextSize,
-	Callback = function(New, Old)
-		WallHack.Visuals.ESPSettings.TextSize = New
-	end,
-	Min = 8,
-	Max = 32
-}).Default = WallHack.Visuals.ESPSettings.TextSize
-
-ESPSettings:AddSlider({
-	Name = "Text Transparency",
-	Value = WallHack.Visuals.ESPSettings.TextTransparency,
-	Callback = function(New, Old)
-		WallHack.Visuals.ESPSettings.TextTransparency = New
-	end,
-	Min = 0,
-	Max = 1,
-	Decimals = 2
-}).Default = WallHack.Visuals.ESPSettings.TextTransparency
-
-ESPSettings:AddDropdown({
-	Name = "Text Font",
-	Value = Fonts[WallHack.Visuals.ESPSettings.TextFont + 1],
-	Callback = function(New, Old)
-		WallHack.Visuals.ESPSettings.TextFont = tablefind(Fonts, New) - 1
-	end,
-	List = Fonts,
-	Nothing = "UI"
-}).Default = Fonts[WallHack.Visuals.ESPSettings.TextFont + 1]
 
 ESPSettings:AddColorpicker({
 	Name = "Text Color",
@@ -587,7 +495,36 @@ ESPSettings:AddColorpicker({
 	end
 }).Default = WallHack.Visuals.ESPSettings.OutlineColor
 
---// Boxes Settings
+ESPSettings:AddSlider({
+	Name = "Text Transparency",
+	Value = WallHack.Visuals.ESPSettings.TextTransparency,
+	Callback = function(New, Old)
+		WallHack.Visuals.ESPSettings.TextTransparency = New
+	end,
+	Min = 0,
+	Max = 1,
+	Decimals = 2
+}).Default = WallHack.Visuals.ESPSettings.TextTransparency
+
+ESPSettings:AddSlider({
+	Name = "Text Size",
+	Value = WallHack.Visuals.ESPSettings.TextSize,
+	Callback = function(New, Old)
+		WallHack.Visuals.ESPSettings.TextSize = New
+	end,
+	Min = 8,
+	Max = 24
+}).Default = WallHack.Visuals.ESPSettings.TextSize
+
+ESPSettings:AddDropdown({
+	Name = "Text Font",
+	Value = Fonts[WallHack.Visuals.ESPSettings.TextFont + 1],
+	Callback = function(New, Old)
+		WallHack.Visuals.ESPSettings.TextFont = Drawing.Fonts[New]
+	end,
+	List = Fonts,
+	Nothing = "UI"
+}).Default = Fonts[WallHack.Visuals.ESPSettings.TextFont + 1]
 
 BoxesSettings:AddToggle({
 	Name = "Enabled",
@@ -596,42 +533,6 @@ BoxesSettings:AddToggle({
 		WallHack.Visuals.BoxSettings.Enabled = New
 	end
 }).Default = WallHack.Visuals.BoxSettings.Enabled
-
-BoxesSettings:AddDropdown({
-	Name = "Type",
-	Value = WallHack.Visuals.BoxSettings.Type == 1 and "3D" or "2D",
-	Callback = function(New, Old)
-		WallHack.Visuals.BoxSettings.Type = New == "3D" and 1 or 2
-	end,
-	List = {"3D", "2D"},
-	Nothing = "3D"
-}).Default = WallHack.Visuals.BoxSettings.Type == 1 and "3D" or "2D"
-
-BoxesSettings:AddToggle({
-	Name = "Filled (2D)",
-	Value = WallHack.Visuals.BoxSettings.Filled,
-	Callback = function(New, Old)
-		WallHack.Visuals.BoxSettings.Filled = New
-	end
-}).Default = WallHack.Visuals.BoxSettings.Filled
-
-BoxesSettings:AddToggle({
-	Name = "Increase (3D)",
-	Value = WallHack.Visuals.BoxSettings.Increase,
-	Callback = function(New, Old)
-		WallHack.Visuals.BoxSettings.Increase = New
-	end
-}).Default = WallHack.Visuals.BoxSettings.Increase
-
-BoxesSettings:AddSlider({
-	Name = "Thickness",
-	Value = WallHack.Visuals.BoxSettings.Thickness,
-	Callback = function(New, Old)
-		WallHack.Visuals.BoxSettings.Thickness = New
-	end,
-	Min = 1,
-	Max = 5
-}).Default = WallHack.Visuals.BoxSettings.Thickness
 
 BoxesSettings:AddSlider({
 	Name = "Transparency",
@@ -644,6 +545,26 @@ BoxesSettings:AddSlider({
 	Decimals = 2
 }).Default = WallHack.Visuals.BoxSettings.Transparency
 
+BoxesSettings:AddSlider({
+	Name = "Thickness",
+	Value = WallHack.Visuals.BoxSettings.Thickness,
+	Callback = function(New, Old)
+		WallHack.Visuals.BoxSettings.Thickness = New
+	end,
+	Min = 1,
+	Max = 5
+}).Default = WallHack.Visuals.BoxSettings.Thickness
+
+BoxesSettings:AddSlider({
+	Name = "Scale Increase (For 3D)",
+	Value = WallHack.Visuals.BoxSettings.Increase,
+	Callback = function(New, Old)
+		WallHack.Visuals.BoxSettings.Increase = New
+	end,
+	Min = 1,
+	Max = 5
+}).Default = WallHack.Visuals.BoxSettings.Increase
+
 BoxesSettings:AddColorpicker({
 	Name = "Color",
 	Value = WallHack.Visuals.BoxSettings.Color,
@@ -652,7 +573,23 @@ BoxesSettings:AddColorpicker({
 	end
 }).Default = WallHack.Visuals.BoxSettings.Color
 
---// Chams Settings
+BoxesSettings:AddDropdown({
+	Name = "Type",
+	Value = WallHack.Visuals.BoxSettings.Type == 1 and "3D" or "2D",
+	Callback = function(New, Old)
+		WallHack.Visuals.BoxSettings.Type = New == "3D" and 1 or 2
+	end,
+	List = {"3D", "2D"},
+	Nothing = "3D"
+}).Default = WallHack.Visuals.BoxSettings.Type == 1 and "3D" or "2D"
+
+BoxesSettings:AddToggle({
+	Name = "Filled (2D Square)",
+	Value = WallHack.Visuals.BoxSettings.Filled,
+	Callback = function(New, Old)
+		WallHack.Visuals.BoxSettings.Filled = New
+	end
+}).Default = WallHack.Visuals.BoxSettings.Filled
 
 ChamsSettings:AddToggle({
 	Name = "Enabled",
@@ -671,7 +608,7 @@ ChamsSettings:AddToggle({
 }).Default = WallHack.Visuals.ChamsSettings.Filled
 
 ChamsSettings:AddToggle({
-	Name = "Entire Body (R15)",
+	Name = "Entire Body (For R15 Rigs)",
 	Value = WallHack.Visuals.ChamsSettings.EntireBody,
 	Callback = function(New, Old)
 		WallHack.Visuals.ChamsSettings.EntireBody = New
@@ -707,8 +644,6 @@ ChamsSettings:AddColorpicker({
 	end
 }).Default = WallHack.Visuals.ChamsSettings.Color
 
---// Tracers Settings
-
 TracersSettings:AddToggle({
 	Name = "Enabled",
 	Value = WallHack.Visuals.TracersSettings.Enabled,
@@ -716,26 +651,6 @@ TracersSettings:AddToggle({
 		WallHack.Visuals.TracersSettings.Enabled = New
 	end
 }).Default = WallHack.Visuals.TracersSettings.Enabled
-
-TracersSettings:AddDropdown({
-	Name = "Type",
-	Value = TracersType[WallHack.Visuals.TracersSettings.Type],
-	Callback = function(New, Old)
-		WallHack.Visuals.TracersSettings.Type = tablefind(TracersType, New)
-	end,
-	List = TracersType,
-	Nothing = "Bottom"
-}).Default = TracersType[WallHack.Visuals.TracersSettings.Type]
-
-TracersSettings:AddSlider({
-	Name = "Thickness",
-	Value = WallHack.Visuals.TracersSettings.Thickness,
-	Callback = function(New, Old)
-		WallHack.Visuals.TracersSettings.Thickness = New
-	end,
-	Min = 1,
-	Max = 5
-}).Default = WallHack.Visuals.TracersSettings.Thickness
 
 TracersSettings:AddSlider({
 	Name = "Transparency",
@@ -748,6 +663,16 @@ TracersSettings:AddSlider({
 	Decimals = 2
 }).Default = WallHack.Visuals.TracersSettings.Transparency
 
+TracersSettings:AddSlider({
+	Name = "Thickness",
+	Value = WallHack.Visuals.TracersSettings.Thickness,
+	Callback = function(New, Old)
+		WallHack.Visuals.TracersSettings.Thickness = New
+	end,
+	Min = 1,
+	Max = 5
+}).Default = WallHack.Visuals.TracersSettings.Thickness
+
 TracersSettings:AddColorpicker({
 	Name = "Color",
 	Value = WallHack.Visuals.TracersSettings.Color,
@@ -756,7 +681,15 @@ TracersSettings:AddColorpicker({
 	end
 }).Default = WallHack.Visuals.TracersSettings.Color
 
---// Head Dots Settings
+TracersSettings:AddDropdown({
+	Name = "Start From",
+	Value = TracersType[WallHack.Visuals.TracersSettings.Type],
+	Callback = function(New, Old)
+		WallHack.Visuals.TracersSettings.Type = tablefind(TracersType, New)
+	end,
+	List = TracersType,
+	Nothing = "Bottom"
+}).Default = Fonts[WallHack.Visuals.TracersSettings.Type + 1]
 
 HeadDotsSettings:AddToggle({
 	Name = "Enabled",
@@ -775,16 +708,6 @@ HeadDotsSettings:AddToggle({
 }).Default = WallHack.Visuals.HeadDotSettings.Filled
 
 HeadDotsSettings:AddSlider({
-	Name = "Thickness",
-	Value = WallHack.Visuals.HeadDotSettings.Thickness,
-	Callback = function(New, Old)
-		WallHack.Visuals.HeadDotSettings.Thickness = New
-	end,
-	Min = 1,
-	Max = 5
-}).Default = WallHack.Visuals.HeadDotSettings.Thickness
-
-HeadDotsSettings:AddSlider({
 	Name = "Transparency",
 	Value = WallHack.Visuals.HeadDotSettings.Transparency,
 	Callback = function(New, Old)
@@ -794,6 +717,16 @@ HeadDotsSettings:AddSlider({
 	Max = 1,
 	Decimals = 2
 }).Default = WallHack.Visuals.HeadDotSettings.Transparency
+
+HeadDotsSettings:AddSlider({
+	Name = "Thickness",
+	Value = WallHack.Visuals.HeadDotSettings.Thickness,
+	Callback = function(New, Old)
+		WallHack.Visuals.HeadDotSettings.Thickness = New
+	end,
+	Min = 1,
+	Max = 5
+}).Default = WallHack.Visuals.HeadDotSettings.Thickness
 
 HeadDotsSettings:AddSlider({
 	Name = "Sides",
@@ -812,8 +745,6 @@ HeadDotsSettings:AddColorpicker({
 		WallHack.Visuals.HeadDotSettings.Color = New
 	end
 }).Default = WallHack.Visuals.HeadDotSettings.Color
-
---// Health Bar Settings
 
 HealthBarSettings:AddToggle({
 	Name = "Enabled",
@@ -968,8 +899,6 @@ CrosshairSettings:AddDropdown({
 	List = {"Mouse", "Center"},
 	Nothing = "Mouse"
 }).Default = WallHack.Crosshair.Settings.Type == 1 and "Mouse" or "Center"
-
---// Crosshair Center Dot
 
 CrosshairSettings_CenterDot:AddToggle({
 	Name = "Center Dot",
