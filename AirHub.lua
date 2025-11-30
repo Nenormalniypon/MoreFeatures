@@ -246,6 +246,29 @@ ThirdPerson:AddSlider({
 	Decimals = 1
 }).Default = Aimbot.Settings.ThirdPersonSensitivity
 
+local TriggerbotSection = AimbotTab:CreateSection({ Name = "Triggerbot" })
+
+TriggerbotSection:AddToggle({
+	Name = "Enabled",
+	Value = Aimbot.Settings.Triggerbot.Enabled,
+	Callback = function(v) Aimbot.Settings.Triggerbot.Enabled = v end
+})
+
+TriggerbotSection:AddToggle({
+	Name = "Hold Mode",
+	Value = Aimbot.Settings.Triggerbot.HoldMode,
+	Callback = function(v) Aimbot.Settings.Triggerbot.HoldMode = v end
+})
+
+TriggerbotSection:AddSlider({
+	Name = "Delay (sec)",
+	Value = Aimbot.Settings.Triggerbot.Delay,
+	Min = 0,
+	Max = 0.5,
+	Decimals = 3,
+	Callback = function(v) Aimbot.Settings.Triggerbot.Delay = v end
+})
+
 --// FOV Settings Values
 
 FOV_Values:AddToggle({
