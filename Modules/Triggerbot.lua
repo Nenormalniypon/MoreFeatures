@@ -1,5 +1,6 @@
-  --[[
-	Triggerbot Module [AirHub] by Exunys © CC0 1.0 Universal (2025)
+--[[
+	Triggerbot Module [AirHub] by Exunys + улучшено для тебя © CC0 1.0 Universal (2025)
+	Автоматическая стрельба при наведении на врага
 ]]
 
 --// Launching checks
